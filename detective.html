@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+  <head>
+    <script type="text/spacebars" name="main">
+      <h1>Detective</h1>
+      {{> log}}
+    </script>
+    <script type="text/spacebars" name="log" src="templates/log.html"/>
+      <ul>
+        {{#each events}}
+          <li>{{action}} @ {{time}}</li>
+        {{/each}}
+      </ul>
+    </script>
+
+    <script src="lib/blaze.js"></script>
+    <script src="detective.js"></script>
+    <script src="inject.js"></script>
+  </head>
+  <body>
+  </body>
+</html>
+
+
+
