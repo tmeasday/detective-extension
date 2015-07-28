@@ -17,20 +17,27 @@
 //  - should I be using the background thing for this?
 var initScript = "window._detectiveBuffer = [];"
  + "Meteor.connection._stream.on('message', function(d) {"
- +   "window._detectiveBuffer.push(p);"
- + "});";
+ // +   "console.log('received', d);"
+ +   "window._detectiveBuffer.push(EJSON.parse(d));"
+ + "});"
+ + "var oldSend = Meteor.connection._send;"
+ + "Meteor.connection._send = function(data) {"
+ // +   "console.log('sent', data);"
+ +   "window._detectiveBuffer.push(data);"
+ +   "return oldSend.call(this, data);"
+ + "};";
 
-var pollScript = "return window._detectiveBuffer;";
+var pollScript = "var b = window._detectiveBuffer; window._detectiveBuffer = []; b;";
 
 observe = function(cb) {
   chrome.devtools.inspectedWindow.eval(initScript);
   setInterval(function() {
     chrome.devtools.inspectedWindow.eval(pollScript, function(res, err) {
       if (!err) {
-        _.each(res, function(doc) {
+        res.forEach(function(doc) {
           cb(doc);
         });
       }
     });
-  }, 1000);
+  }, 100);
 }

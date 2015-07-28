@@ -3,19 +3,20 @@
   <head>
     <script type="text/spacebars" name="main">
       <h1>Detective</h1>
-      {{> log}}
+      {{> subscriptions}}
     </script>
-    <script type="text/spacebars" name="log" src="templates/log.html"/>
+    <script type="text/spacebars" name="subscriptions"/>
+      <p>{{subscriptions.count}} Subscriptions Loaded</p>
       <ul>
-        {{#each events}}
-          <li>{{action}} @ {{time}}</li>
+        {{#each subscriptions}}
+          <li>{{name}} - {{stateStr}} -- {{time}}</li>
         {{/each}}
       </ul>
     </script>
 
     <script src="lib/blaze.js"></script>
+    <script src="observe.js"></script>
     <script src="detective.js"></script>
-    <script src="inject.js"></script>
   </head>
   <body>
   </body>
